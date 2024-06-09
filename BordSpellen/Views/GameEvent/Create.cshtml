@@ -1,0 +1,98 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model GameEventViewModel
+
+@{
+    ViewData["Title"] = "Create game event";
+}
+
+<div class="row">
+    <div class="col-md-6 offset-3">
+        <p>
+            <h4>Create a game event</h4>
+        </p>
+        @if (TempData["Error"] != null)
+        {
+            <div class="col-md-12 alert alert-danger">
+                <span><b>Sorry</b> - @TempData["Error"] </span>
+            </div>
+        }
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row">
+                        <div class="form-group pt-2 col-md-6">
+                            <label asp-for="Name" class="control-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group pt-2 col-md-6">
+                            <label asp-for="Description" class="control-label"></label>
+                            <input asp-for="Description" class="form-control" />
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group pt-2 col-md-8">
+                            <label asp-for="Street" class="control-label"></label>
+                            <input asp-for="Street" class="form-control" />
+                            <span asp-validation-for="Street" class="text-danger"></span>
+                        </div>
+                        <div class="form-group pt-2 col-md-4">
+                            <label asp-for="HouseNumber" class="control-label"></label>
+                            <input asp-for="HouseNumber" class="form-control" />
+                            <span asp-validation-for="HouseNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group pt-2 col-md-4">
+                            <label asp-for="PostalCode" class="control-label"></label>
+                            <input asp-for="PostalCode" class="form-control" />
+                            <span asp-validation-for="PostalCode" class="text-danger"></span>
+                        </div>
+                        <div class="form-group pt-2 col-md-8">
+                            <label asp-for="City" class="control-label"></label>
+                            <input asp-for="City" class="form-control" />
+                            <span asp-validation-for="City" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group pt-2 col-md-8">
+                            <label asp-for="EventDate" class="control-label"></label>
+                            <input asp-for="EventDate" class="form-control" type="datetime-local" />
+                            <span asp-validation-for="EventDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group pt-2 col-md-4">
+                            <label asp-for="MaxAmountOfPlayers" class="control-label"></label>
+                            <input asp-for="MaxAmountOfPlayers" class="form-control" type="number"/>
+                            <span asp-validation-for="MaxAmountOfPlayers" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label asp-for="IsAdultEvent" class="control-label"></label>
+                            <input asp-for="IsAdultEvent" class="form-control form-check-input p-3" type="checkbox" value="false" onchange="this.value = this.checked" />
+                            <span asp-validation-for="IsAdultEvent" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="BoardGameIds" class="control-label"></label>
+                            <select asp-for="BoardGameIds" class="form-control" multiple asp-items="ViewBag.boardGames"></select>
+                            <span asp-validation-for="BoardGameIds" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="DietIds" class="control-label"></label>
+                            <select asp-for="DietIds" class="form-control" multiple asp-items="ViewBag.diets"></select>
+                            <span asp-validation-for="DietIds" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group pt-4">
+                        <input class="btn btn-outline-success float-end" type="submit" value="Create" />
+                        <a class="btn btn-outline-secondary" asp-controller="GameEvent" asp-action="Index">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

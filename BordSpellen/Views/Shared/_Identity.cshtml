@@ -1,0 +1,92 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Core.Domain.Security.Roles
+@using Core.Domain.Security
+@inject UserManager<BoardGameUser> UserManager
+@if (!User.Identity.IsAuthenticated)
+{
+    <ul class="navbar-nav flex-grow-1">
+    </ul>
+    <a class="btn btn-outline-success my-2 my-sm-0" asp-controller="Account" asp-action="Login">
+        <i class="bi bi-box-arrow-in-right"></i> Log in
+    </a>
+    <span style="padding: 5px;"></span>
+    <a class="btn btn-outline-primary my-2 my-sm-0" asp-controller="Account" asp-action="Register">
+        <i class="bi bi-person-plus"></i> Register
+    </a>
+}
+else
+{
+    @if (User.IsInRole(UserRoles.Organiser))
+    {
+        <ul class="navbar-nav flex-grow-1">
+            <li class="navbar-nav">
+                <div class="dropdown">
+                    <button class="nav-link text-dark btn dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-clipboard"></i> Manage
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" asp-controller="BoardGame" asp-action="Index">
+                                <i class="bi bi-joystick"></i> Manage Boardgames
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" asp-controller="Diet" asp-action="Index">
+                                <i class="bi bi-egg-fried"></i> Manage Diets
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    }
+    else
+    {
+        <ul class="navbar-nav flex-grow-1">
+        </ul>
+    }
+    
+    <div class="dropdown">
+        <div class="dropdown">
+            <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-person-badge"></i> Hello @UserManager.GetUserAsync(User).Result.FullName
+            </button>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item" asp-controller="Account" asp-action="Details" asp-route-id="@UserManager.GetUserAsync(User).Result.Id">
+                        <i class="bi bi-person-bounding-box"></i> Account
+                    </a>
+                </li>
+                @if (User.IsInRole(UserRoles.User))
+                {
+                    <li>
+                        <a class="dropdown-item" asp-controller="GameEvent" asp-action="OpedGameEvent">
+                            <i class="bi bi-calendar-check"></i> Manage Subscribed Events
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" asp-controller="Review" asp-action="Index">
+                            <i class="bi bi-journal"></i> Manage My Reviews
+                        </a>
+                    </li>
+                }
+
+                @if (User.IsInRole(UserRoles.Organiser))
+                {
+                    <li>
+                        <a class="dropdown-item" asp-controller="GameEvent" asp-action="MyGameEvent">
+                            <i class="bi bi-calendar4-event"></i> Manage My Events
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    
+    <span style="padding: 5px"></span>
+    <form asp-controller="Account" asp-action="Logout">
+        <button class="btn btn-outline-danger my-2 my-sm-0">
+            <i class="bi bi-box-arrow-in-right"></i> Log out
+        </button>
+    </form>
+}

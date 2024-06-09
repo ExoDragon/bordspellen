@@ -1,0 +1,98 @@
+﻿@using Core.Domain.Enums
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Core.Domain.Data.Actors.Person
+
+@{
+    ViewData["Title"] = "Details Person";
+}
+
+<div class="row">
+    <div class="col-md-6 offset-3">
+        <p>
+            <h4 class="detailheader">Details of @Model.FirstName @Model.LastName</h4>
+        </p>
+        
+        <div class="col-md-8 offset-2">
+            <div class="row">
+                <div class="form-group pt-2 col-md-6">
+                    <label asp-for="FirstName" class="control-label"></label>
+                    <input asp-for="FirstName" class="form-control" readonly/>
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-2 col-md-6">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control" readonly/>
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group pt-2 col-md-6">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" type="email" readonly />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-2 col-md-6">
+                    <label asp-for="PhoneNumber" class="control-label"></label>
+                    <input asp-for="PhoneNumber" class="form-control" readonly/>
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group pt-2 col-md-6">
+                    <label asp-for="DateOfBirth" class="control-label"></label>
+                    <input asp-for="DateOfBirth" class="form-control" type="date" readonly/>
+                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-2 col-md-6">
+                    <label asp-for="Gender" class="control-label"></label>
+                    <select asp-for="Gender" class="form-control" asp-items="Html.GetEnumSelectList<GenderEnum>()" readonly></select>
+                    <span asp-validation-for="Gender" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group pt-2 col-md-8">
+                    <label asp-for="Street" class="control-label"></label>
+                    <input asp-for="Street" class="form-control" readonly/>
+                    <span asp-validation-for="Street" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-2 col-md-4">
+                    <label asp-for="HouseNumber" class="control-label"></label>
+                    <input asp-for="HouseNumber" class="form-control" readonly/>
+                    <span asp-validation-for="HouseNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group pt-2 col-md-4">
+                    <label asp-for="PostalCode" class="control-label"></label>
+                    <input asp-for="PostalCode" class="form-control" readonly/>
+                    <span asp-validation-for="PostalCode" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-2 col-md-8">
+                    <label asp-for="City" class="control-label"></label>
+                    <input asp-for="City" class="form-control" readonly/>
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group pt-3 col-12">
+                    <p> Diet preferences </p>
+                    @foreach (var item in @Model.DietList)
+                    {
+                        <span class="indicator badge bg-info text-white pt-2"> @item.Diet.Name </span>
+                    }
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <div class="form-group pt-4">
+                    
+                    <a class="btn btn-outline-danger float-end" asp-controller="Account" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+                    <a class="btn btn-outline-warning mx-2 float-end" asp-controller="Account" asp-action="UpdateUser" asp-route-id="@Model.Id">Edit</a>
+                    <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="Index">Return</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

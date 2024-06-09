@@ -1,0 +1,78 @@
+﻿@using Core.Domain.Security.Roles
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Core.Domain.Security
+@model IEnumerable<Core.Domain.Data.Entities.GameEvent>
+@inject UserManager<BoardGameUser> UserManager
+@{
+    ViewData["Title"] = "Events";
+}
+
+<section class="container">
+    @if (TempData["error"] != null)
+    {
+        <div class="col-md-12 alert alert-danger">
+            <span> @TempData["error"] </span>
+        </div>
+    }
+    <h1 class="detailheader-border">Events</h1>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-12 col-md-6">
+                <article class="card fl-left">
+                    <section class="date">
+                        <time datetime="23th feb">
+                            <span>@item.EventDate?.Day</span><span>@item.EventDate?.ToString("MMM")</span>
+                        </time>
+                    </section>
+                    <section class="card-cont">
+                        <small>@item.Organiser?.FirstName @item.Organiser?.LastName</small>
+                        <div class="edit">
+                            @if (
+                                User.Identity!.IsAuthenticated && User.IsInRole(UserRoles.User) &&
+                                await UserManager.GetEmailAsync(await UserManager.GetUserAsync(User)) == item.Organiser!.Email
+                                )
+                            {
+                                <a class="text-white float-end" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-fill"></i></a>
+                            }
+                            @if (item.EventDate < DateTime.Now)
+                            {
+                                <span class="indicator badge bg-secondary text-white">EXPIRED</span>
+                            }
+                            else if (item.GamerGameEvents!.Count == item.MaxAmountOfPlayers)
+                            {
+                                <span class="indicator badge bg-danger text-white">FULL</span>
+                            }
+                            else if (item.GamerGameEvents!.Count <= item.MaxAmountOfPlayers && item.GamerGameEvents!.Count + 3 > item.MaxAmountOfPlayers)
+                            {
+                                <span class="indicator badge bg-warning text-white">LIMITED</span>
+                            }
+                            else
+                            {
+                                <span class="indicator badge bg-success text-white">AVAILABLE</span>
+                            }
+                        </div>
+
+                        <h3>@item.Name</h3>
+                        <div class="even-date">
+                            <i></i>
+                            <time>
+                                <span>@item.EventDate?.DayOfWeek.ToString() @item.EventDate?.Day @item.EventDate?.ToString("MMMM") @item.EventDate?.Year</span>
+                                <span>@item.EventDate?.ToString("HH:mm:ss tt")</span>
+                            </time>
+                        </div>
+                        <div class="even-info">
+                            <i></i>
+                            <p>
+                                @item.ToString()
+                            </p>
+                        </div>
+                        <a class="detail" asp-action="Details" asp-route-id="@item.Id">details</a>
+                    </section>
+                </article>
+            </div>
+        }
+    </div>
+</section>
+
+@await Html.PartialAsync("_CreateItem", "GameEvent")

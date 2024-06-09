@@ -1,0 +1,42 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<Core.Domain.Data.Entities.GameEvent>
+@{
+    ViewData["Title"] = "My Reviews";
+}
+
+
+<section class="container">
+    <h1 class="detailheader-border">Reviewed events</h1>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-12 col-md-6">
+                <article class="card fl-left">
+                    <section class="date">
+                        <time datetime="23th feb">
+                            <span>@item.EventDate?.Day</span><span>@item.EventDate?.ToString("MMM")</span>
+                        </time>
+                    </section>
+                    <section class="card-cont">
+                        <small>@item.Organiser?.FirstName @item.Organiser?.LastName</small>
+                        <h3>@item.Name</h3>
+                        <div class="even-date">
+                            <i></i>
+                            <time>
+                                <span>@item.EventDate?.DayOfWeek.ToString() @item.EventDate?.Day @item.EventDate?.ToString("MMMM") @item.EventDate?.Year</span>
+                                <span>@item.EventDate?.ToString("HH:mm:ss tt")</span>
+                            </time>
+                        </div>
+                        <div class="even-info">
+                            <i></i>
+                            <p>
+                                @item.ToString()
+                            </p>
+                        </div>
+                        <a class="detail" asp-action="Details" asp-controller="GameEvent" asp-route-id="@item.Id">details</a>
+                    </section>
+                </article>
+            </div>
+        }
+    </div>
+</section>

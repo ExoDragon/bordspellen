@@ -1,0 +1,95 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Core.Domain.Data.Entities.GameEvent
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+    <div class="col-12 col-md-6" style="height: 100%;">
+        <div class="text-center" style="height: 100%;">
+            <h1 class="detailheader-border display-4 align-middle"> Game Events for Refugees! </h1>
+        </div>
+    </div>
+    <div class="col-12 col-md-6">
+        
+        <h3 class="detailheader-noborder"> Next Game Event </h3>
+        
+        <div class="col-12 col-md-6">
+            <article class="card fl-left">
+                <section class="date">
+                    <time datetime="23th feb">
+                        <span>@Model.EventDate?.Day</span><span>@Model.EventDate?.ToString("MMM")</span>
+                    </time>
+                </section>
+                <section class="card-cont">
+                    <small>@Model.Organiser?.FirstName @Model.Organiser?.LastName</small>
+                    <div class="edit">
+                        @if (Model.EventDate < DateTime.Now)
+                        {
+                            <span class="indicator badge bg-secondary text-white">EXPIRED</span>
+                        }
+                        else if (Model.GamerGameEvents!.Count == Model.MaxAmountOfPlayers)
+                        {
+                            <span class="indicator badge bg-danger text-white">FULL</span>
+                        }
+                        else if (Model.GamerGameEvents!.Count <= Model.MaxAmountOfPlayers && Model.GamerGameEvents!.Count + 3 > Model.MaxAmountOfPlayers)
+                        {
+                            <span class="indicator badge bg-warning text-white">LIMITED</span>
+                        }
+                        else
+                        {
+                            <span class="indicator badge bg-success text-white">AVAILABLE</span>
+                        }
+                    </div>
+
+                    <h3>@Model.Name</h3>
+                    <div class="even-date">
+                        <i></i>
+                        <time>
+                            <span>@Model.EventDate?.DayOfWeek.ToString() @Model.EventDate?.Day @Model.EventDate?.ToString("MMMM") @Model.EventDate?.Year</span>
+                            <span>@Model.EventDate?.ToString("HH:mm:ss tt")</span>
+                        </time>
+                    </div>
+                    <div class="even-info">
+                        <i></i>
+                        <p>
+                            @Model.ToString()
+                        </p>
+                    </div>
+                    <a class="detail" asp-action="Details" asp-controller="GameEvent" asp-route-id="@Model.Id">details</a>
+                </section>
+            </article>
+        </div>
+    </div>
+</div>
+<div class="row float-bottom">
+    <div class="col-12 col-md-6 ">
+        <div class="p-3 bg-white">
+            <h2 class="detailheader-noborder"> Who are we! </h2>
+            <p>
+                We are an organisation that want to help refugees to connect with other people. <br>
+                We are determined to establish new and mend existing relations <br>
+                <br>
+                <b>How can you perticipate</b><br>
+                If you want to participate in any of the events<br>
+                Just create an account. its that easy.<br>
+                <p class="fw-bold">Disclaimer: For participation you need to be 16+ or 18+ if indicated<p>
+            </p>
+        </div>
+    </div>
+    <div class="col-12 col-md-6">
+        <div class="p-3 bg-white">
+            <h2 class="detailheader-noborder"> FAQ </h2>
+            <ul>
+                <li class="p-2">
+                    <b>Q</b>: How do you join an event?<br>
+                    <b>A</b>: If you are logged in you can subscribe to any of the events if you are eligable.<br>
+                </li>
+                <li class="p-2">
+                    <b>Q</b>: Can i bring my own snacks?<br>
+                    <b>A</b>: Yes you can! On the detail page there will be a section for provided snacks, but you can always bring your own.<br>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
